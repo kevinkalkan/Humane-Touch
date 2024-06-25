@@ -1,0 +1,100 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+button {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: left; /* Align text to the left */
+    white-space: normal; /* Wrap text if it exceeds button width */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.interaction-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80vh;
+    margin: 0 10%;
+}
+
+.user, .enemy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.blue {
+    background-color: #007bff; /* Blue color for user circle */
+}
+
+.red {
+    background-color: #dc3545; /* Red color for enemy circle */
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.green-btn {
+    width: 100%;
+    max-width: 300px; /* Limit button width */
+    padding: 15px;
+    background-color: #28a745; /* Green color for user buttons */
+}
+
+.purple-btn {
+    width: 100%;
+    height: 50px;
+    background-color: #6f42c1; /* Purple color for enemy buttons */
+    border: none;
+    border-radius: 5px;
+    cursor: not-allowed; /* Cursor disabled for enemy buttons */
+    opacity: 0.5; /* Opacity reduced for disabled state */
+}
+
+.question {
+    text-align: center;
+    flex-grow: 1;
+}
