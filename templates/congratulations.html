@@ -4,11 +4,56 @@
     <meta charset="utf-8">
     <title>Congratulations</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcc00;
+            animation: confetti-fall 5s linear infinite, confetti-spin 2s linear infinite;
+        }
+
+        .confetti:nth-child(2n) {
+            background-color: #ff00ff;
+        }
+
+        .confetti:nth-child(3n) {
+            background-color: #00ccff;
+        }
+
+        .confetti:nth-child(4n) {
+            background-color: #ff3300;
+        }
+
+        .confetti:nth-child(5n) {
+            background-color: #33cc33;
+        }
+
+        @keyframes confetti-fall {
+            0% { top: -10px; left: calc(100% * var(--x)); opacity: 1; }
+            100% { top: 100%; left: calc(100% * var(--x)); opacity: 0; }
+        }
+
+        @keyframes confetti-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .celebration {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-    <div class="message-container">
+    <div class="celebration">
         <h1>Congratulations!</h1>
-        <p>You defeated the enemy.</p>
+        <p>You have defeated the enemy!</p>
+    </div>
+    <div class="confetti-container">
+        {% for i in range(100) %}
+            <div class="confetti" style="--x: {{ (i % 10) / 10.0 }}"></div>
+        {% endfor %}
     </div>
 </body>
 </html>

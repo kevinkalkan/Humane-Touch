@@ -7,6 +7,75 @@ player_hp = 10
 enemy_hp = 10
 player_points = 0
 
+# Questions and answers for the battle
+questions = [
+    "Question 1: What's your favorite game and why?",
+    "Question 2: How do you feel about game difficulty?",
+    "Question 3: What's your opinion on multiplayer games?",
+    "Question 4: What do you think about game graphics?",
+    "Question 5: What's your view on game storytelling?",
+    "Question 6: How do you choose which game to play next?",
+    "Question 7: What do you think about game soundtracks?",
+    "Question 8: How important is game replayability to you?",
+    "Question 9: What's your favorite game genre?",
+    "Question 10: How do you feel about game microtransactions?"
+]
+#super toxic-toxic-positive-super positive-avoid fight
+answers = [
+    ["You're clueless about games if you think that's the best. My little cousin could beat you.",
+     "Seriously? Are you just trying to sound cool? Your taste in games is embarrassing.",
+     "I appreciate games that challenge me and have deep stories. What's your favorite?",
+     "I love how games can bring people together and create strong communities. It's incredible.",
+     "Let's keep things civil. Everyone has their own preferences, right?"],
+    ["That's way too easy. Are you a baby gamer?",
+     "If you like easy games, you might as well watch a movie. No challenge at all.",
+     "Challenging games are great, but accessibility matters too.",
+     "A good balance between difficulty and fun is essential for a great game.",
+     "Difficulty can be subjective. To each their own, I guess."],
+    ["Multiplayer games are for people who can't handle real challenges.",
+     "Multiplayer is overrated. Single-player is where the real skill is at.",
+     "Multiplayer can be fun with friends and adds replayability.",
+     "Multiplayer communities can create lasting friendships and great memories.",
+     "Both modes have their own charm. It depends on what you're looking for."],
+    ["Graphics don't matter if the game sucks. You're just being shallow.",
+     "Good graphics can't save a bad game. You're just being a fanboy.",
+     "Graphics enhance the experience but gameplay is the core.",
+     "Stunning visuals can immerse you in the game's world.",
+     "Graphics are just one aspect. Gameplay and story are equally important."],
+    ["If you care so much about the story, go read a book.",
+     "Storytelling is just an excuse for poor gameplay.",
+     "A compelling story can make a good game great.",
+     "Great storytelling can turn a game into a memorable experience.",
+     "A good story can complement the gameplay, making it more engaging."],
+    ["You must have no life to think so much about this.",
+     "Choosing games? Just play whatever, doesn't matter.",
+     "I look for recommendations and reviews before picking a game.",
+     "I love exploring new games and genres. Keeps things fresh.",
+     "It depends on my mood and what I'm interested in at the time."],
+    ["Soundtracks? Really? Who even cares?",
+     "Game music is just background noise. No big deal.",
+     "A good soundtrack can elevate the gaming experience.",
+     "Great music can make moments in games unforgettable.",
+     "Soundtracks add to the atmosphere and immersion of the game."],
+    ["Replayability is overrated. Just finish the game and move on.",
+     "Who cares about replayability? One playthrough is enough.",
+     "High replayability value keeps me coming back to a game.",
+     "Games with replayability offer great value and longer enjoyment.",
+     "Replayability can be a nice bonus, but it's not everything."],
+    ["You must have terrible taste if that's your favorite genre.",
+     "Seriously? That's your favorite? How basic.",
+     "I enjoy a variety of genres depending on my mood.",
+     "Every genre has its unique charm and strengths.",
+     "Genres are just labels. A good game is a good game."],
+    ["Microtransactions are the worst. They ruin games.",
+     "If you like microtransactions, you must be a sucker.",
+     "Microtransactions can be okay if done fairly.",
+     "Games can stay relevant and funded through microtransactions.",
+     "It's a mixed bag. Some implementations are better than others."]
+]
+
+current_question_index = 0
+#Survey Questions and answers
 @app.route('/')
 def survey():
     questions = [
@@ -103,11 +172,11 @@ def results():
 
     # Determine the profile with the highest score
     gamer_profile = max(profile_scores, key=profile_scores.get)
-    return f"Your gamer profile is: {gamer_profile}"
+    return redirect(url_for('analysing'))
 
 @app.route('/interaction', methods=['GET', 'POST'])
 def interaction():
-    global player_hp, enemy_hp, player_points
+    global player_hp, enemy_hp, player_points, current_question_index
     
     if request.method == 'POST':
         answer = request.form['answer']
@@ -136,11 +205,22 @@ def interaction():
         elif player_points >= 3:
             return redirect(url_for('congratulations_bro'))
         
-        # Redirect to interaction page to display updated HP
+        # Move to the next question
+        current_question_index += 1
+        if current_question_index >= len(questions):
+            if player_hp > enemy_hp:
+                return redirect(url_for('congratulations'))
+            else:
+                return redirect(url_for('game_over'))
+        
+        # Redirect back to interaction page
         return redirect(url_for('interaction'))
     
-    return render_template('interaction.html', player_hp=player_hp, enemy_hp=enemy_hp)
-
+    return render_template('interaction.html', 
+                           question=questions[current_question_index], 
+                           answers=answers[current_question_index], 
+                           player_hp=player_hp, 
+                           enemy_hp=enemy_hp)
 
 @app.route('/game_over')
 def game_over():
@@ -153,6 +233,10 @@ def congratulations():
 @app.route('/congratulations_bro')
 def congratulations_bro():
     return render_template('congratulations_bro.html')
+
+@app.route('/analysing')
+def analysing():
+    return render_template('analysing.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

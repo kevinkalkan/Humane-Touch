@@ -11,19 +11,20 @@
             <div class="circle blue"></div>
             <div class="buttons">
                 <form method="POST">
-                    <button class="green-btn" name="answer" value="super_toxic">You're clueless about games if you think that's the best. My little cousin could beat you.</button>
-                    <button class="green-btn" name="answer" value="toxic">Seriously? Are you just trying to sound cool? Your taste in games is embarrassing.</button>
-                    <button class="green-btn" name="answer" value="positive">I appreciate games that challenge me and have deep stories. What's your favorite?</button>
-                    <button class="green-btn" name="answer" value="super_positive">I love how games can bring people together and create strong communities. It's incredible.</button>
-                    <button class="green-btn" name="answer" value="avoid_fight">Let's keep things civil. Everyone has their own preferences, right?</button>
+                    <button class="green-btn" name="answer" value="super_toxic">{{ answers[0] }}</button>
+                    <button class="green-btn" name="answer" value="toxic">{{ answers[1] }}</button>
+                    <button class="green-btn" name="answer" value="positive">{{ answers[2] }}</button>
+                    <button class="green-btn" name="answer" value="super_positive">{{ answers[3] }}</button>
+                    <button class="green-btn" name="answer" value="avoid_fight">{{ answers[4] }}</button>
                 </form>
             </div>
             <div class="hp">
                 <p>Player HP: {{ player_hp }}</p>
+                <p>Player Points: {{ player_points }}</p>
             </div>
         </div>
         <div class="question">
-            <h2>What's your favorite game and why?</h2>
+            <h2>{{ question }}</h2>
         </div>
         <div class="enemy">
             <div class="circle red"></div>

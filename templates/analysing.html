@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Analysing...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .loading-bar {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .loading-bar-inner {
+            height: 30px;
+            width: 0;
+            background-color: #4caf50;
+            border-radius: 5px;
+            animation: loading 10s linear forwards;
+        }
+
+        @keyframes loading {
+            0% { width: 0; }
+            100% { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <h2>We're currently analysing</h2>
+        <div class="loading-bar">
+            <div class="loading-bar-inner"></div>
+        </div>
+    </div>
+    <script>
+        setTimeout(function() {
+            window.location.href = "{{ url_for('interaction') }}";
+        }, 10000); // 10 seconds
+    </script>
+</body>
+</html>
