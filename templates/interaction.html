@@ -1,21 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>User and Enemy Interaction</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        // Function to play sound effect based on answer chosen
+        function playSound(answer) {
+            var audio = new Audio();
+            if (answer === 'super_toxic') {
+                audio.src = "{{ url_for('static', filename='toxic.mp3') }}";
+            } else if (answer === 'toxic') {
+                audio.src = "{{ url_for('static', filename='toxic.mp3') }}";
+            } else if (answer === 'positive') {
+                audio.src = "{{ url_for('static', filename='positive.mp3') }}";
+            } else if (answer === 'super_positive') {
+                audio.src = "{{ url_for('static', filename='positive.mp3') }}";
+            } else if (answer === 'avoid_fight') {
+                audio.src = "{{ url_for('static', filename='avoid.mp3') }}";
+            }
+            audio.play();
+        }
+        // Function to display random reply for 5 seconds
+        function displayRandomReply() {
+            var randomReply = document.getElementById('random-reply');
+            randomReply.style.display = 'block';
+            setTimeout(function() {
+                randomReply.style.display = 'none';
+            }, 5000); // 5000 milliseconds = 5 seconds
+        }
+    </script>
 </head>
-<body>
+<body onload="displayRandomReply()">
     <div class="interaction-container">
         <div class="user">
             <div class="circle blue"></div>
             <div class="buttons">
-                <form method="POST">
-                    <button class="green-btn" name="answer" value="super_toxic">{{ answers[0] }}</button>
-                    <button class="green-btn" name="answer" value="toxic">{{ answers[1] }}</button>
-                    <button class="green-btn" name="answer" value="positive">{{ answers[2] }}</button>
-                    <button class="green-btn" name="answer" value="super_positive">{{ answers[3] }}</button>
-                    <button class="green-btn" name="answer" value="avoid_fight">{{ answers[4] }}</button>
+                <form method="POST" action="/interaction">
+                    <button class="green-btn" name="answer" value="super_toxic" onclick="playSound('super_toxic')">{{ answers[0] }}</button>
+                    <button class="green-btn" name="answer" value="toxic" onclick="playSound('toxic')">{{ answers[1] }}</button>
+                    <button class="green-btn" name="answer" value="positive" onclick="playSound('positive')">{{ answers[2] }}</button>
+                    <button class="green-btn" name="answer" value="super_positive" onclick="playSound('super_positive')">{{ answers[3] }}</button>
+                    <button class="green-btn" name="answer" value="avoid_fight" onclick="playSound('avoid_fight')">{{ answers[4] }}</button>
                 </form>
             </div>
             <div class="hp">
@@ -28,6 +54,9 @@
         </div>
         <div class="enemy">
             <div class="circle red"></div>
+            <div id="random-reply" style="display: none;">
+                <p>{{ random_reply }}</p>
+            </div>
             <div class="buttons">
                 <button class="purple-btn" disabled></button>
                 <button class="purple-btn" disabled></button>

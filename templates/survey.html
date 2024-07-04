@@ -2,47 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Gaming Experience Survey</title>
+    <title>Survey</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Gaming Experience Survey</h1>
-    <form action="{{ url_for('results') }}" method="post">
-        {% for question in questions %}
-            <div class="question">
-                <p>{{ question.question }}</p>
-                {% for answer in question.answers %}
-                    <button type="button" class="answer-btn" data-question="{{ question.id }}" data-answer="{{ answer }}">{{ answer }}</button>
-                {% endfor %}
+    <div class="survey-container">
+        <form method="POST">
+            <h2>{{ question['question'] }}</h2>
+            {% for answer in question['answers'] %}
+            <div>
+                <input type="checkbox" name="answers" value="{{ answer }}"> {{ answer }}
             </div>
-        {% endfor %}
-        <input type="hidden" id="form-data" name="form-data">
-        <button type="submit" id="submit-btn" style="display: none;">Submit</button>
-    </form>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const answers = {};
-
-            document.querySelectorAll('.answer-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const question = this.getAttribute('data-question');
-                    const answer = this.getAttribute('data-answer');
-                    answers[question] = answer;
-                    this.parentNode.querySelectorAll('.answer-btn').forEach(btn => {
-                        btn.disabled = true;
-                        btn.style.backgroundColor = '#d3d3d3';
-                    });
-                    this.style.backgroundColor = '#007bff';
-                    this.style.color = '#fff';
-
-                    if (Object.keys(answers).length === {{ questions|length }}) {
-                        document.getElementById('form-data').value = JSON.stringify(answers);
-                        document.getElementById('submit-btn').style.display = 'block';
-                    }
-                });
-            });
-        });
-    </script>
+            {% endfor %}
+            <button type="submit">Next</button>
+        </form>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
 </body>
 </html>

@@ -1,47 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat with ChatGPT</title>
+    <meta charset="utf-8">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .welcome-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .welcome-container h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .welcome-container button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .welcome-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <div id="chat-container">
-        <div id="chat-box"></div>
-        <input type="text" id="user-input" placeholder="Type your message...">
-        <button id="send-btn">Send</button>
+    <div class="welcome-container">
+        <h1>Welcome to the Gaming Experience Survey</h1>
+        <button onclick="location.href='{{ url_for('survey') }}'">Start the Survey</button>
     </div>
-
-    <script>
-        const chatBox = document.getElementById('chat-box');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-
-        sendBtn.addEventListener('click', async () => {
-            const userMessage = userInput.value.trim();
-            if (userMessage === '') return;
-
-            appendMessage('user', userMessage);
-            userInput.value = '';
-
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message: userMessage })
-            });
-
-            const data = await response.json();
-            appendMessage('bot', data.message);
-        });
-
-        function appendMessage(sender, message) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
-            messageElement.textContent = message;
-            chatBox.appendChild(messageElement);
-        }
-    </script>
 </body>
 </html>
