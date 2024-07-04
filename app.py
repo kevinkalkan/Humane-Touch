@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 import json
 import random
 
@@ -6,60 +6,36 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
 # Load interaction questions and answers from JSON file
-with open('questions.json') as f:
+with open('interactions.json') as f:
     interaction_data = json.load(f)
-    interaction_questions = interaction_data['questions']
-    interaction_answers = interaction_data['answers']
+    interaction_questions = interaction_data['i_questions']
+    interaction_answers = interaction_data['i_answers']
 
-# Survey Questions and answers
-survey_questions = [
-    {
-        'id': 'q1',
-        'question': 'How often do you play video games?',
-        'answers': ['Daily', 'Weekly', 'Monthly', 'Rarely']
-    },
-    {
-        'id': 'q2',
-        'question': 'What type of games do you prefer?',
-        'answers': ['Action/Adventure', 'Role-Playing Games (RPGs)', 'First-Person Shooters (FPS)', 'Sports', 'Puzzle']
-    },
-    {
-        'id': 'q3',
-        'question': 'Do you enjoy multiplayer games?',
-        'answers': ['Yes, I love playing with others.', 'Occasionally, but I prefer single-player.', 'No, I prefer single-player experiences.']
-    },
-    {
-        'id': 'q4',
-        'question': 'How important is the story in a game to you?',
-        'answers': ['Very important', 'Somewhat important', 'Not important at all']
-    },
-    {
-        'id': 'q5',
-        'question': 'Do you participate in gaming communities or forums?',
-        'answers': ['Yes, frequently', 'Sometimes', 'No, never']
-    }
-]
+# Load survey questions and answers from JSON file
+with open('survey.json') as f:
+    survey_data = json.load(f)
+    survey_questions = survey_data['s_questions']
 
 # Load replies from JSON file
 with open('replies.json') as f:
     replies = json.load(f)
 
-# Reset HP and points function
 def reset_hp_points():
     session['player_hp'] = 10
     session['enemy_hp'] = 10
     session['player_points'] = 0
-    session['current_question_index'] = 0
+    session['interaction_question_index'] = 0
 
+# Ensure proper initialization of session variables
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
-    # Initialize session variables if they don't exist
-    if 'responses' not in session:
-        session['responses'] = []
-    if 'current_question_index' not in session:
-        session['current_question_index'] = 0
+    if 'survey_responses' not in session:
+        session['survey_responses'] = []
+    
+    if 'survey_question_index' not in session:
+        session['survey_question_index'] = 0
 
-    current_question_index = session['current_question_index']
+    current_question_index = session['survey_question_index']
 
     if request.method == 'POST':
         selected_answers = request.form.getlist('answers')
@@ -67,22 +43,23 @@ def survey():
             error = "Please select at least one answer."
             return render_template('survey.html', question=survey_questions[current_question_index], error=error)
         
-        session['responses'].append(selected_answers)
-        session['current_question_index'] += 1
+        session['survey_responses'].append(selected_answers)
+        session['survey_question_index'] += 1
 
-        if current_question_index >= len(survey_questions):
-            return redirect(url_for('analysing'))
+        if session['survey_question_index'] >= len(survey_questions):
+            return redirect(url_for('results'))
         
         return redirect(url_for('survey'))
 
     if current_question_index >= len(survey_questions):
-        return redirect(url_for('analysing'))
+        return redirect(url_for('results'))
 
     return render_template('survey.html', question=survey_questions[current_question_index])
 
-@app.route('/results', methods=['POST'])
+
+@app.route('/results', methods=['GET', 'POST'])
 def results():
-    responses = session.get('responses', [])
+    responses = session.get('survey_responses', [])
     profile_scores = {
         'Casual Gamer': 0,
         'Hardcore Gamer': 0,
@@ -91,9 +68,8 @@ def results():
         'Social Gamer': 0
     }
     
-    # Scoring logic based on responses
     for question, answers in zip(survey_questions, responses):
-        answer = answers[0]  # Assuming only one answer per question for simplicity
+        answer = answers[0]
         if question['id'] == 'q1':
             if answer == 'Daily':
                 profile_scores['Hardcore Gamer'] += 2
@@ -144,65 +120,62 @@ def results():
             elif answer == 'No, never':
                 profile_scores['Casual Gamer'] += 1
 
-    # Determine the profile with the highest score
     gamer_profile = max(profile_scores, key=profile_scores.get)
     return redirect(url_for('analysing'))
 
-@app.route('/interaction')
+@app.route('/interaction', methods=['GET', 'POST'])
 def interaction():
-    reset_hp_points()
-    return render_template('interaction.html', 
-                           question=interaction_questions[session['current_question_index']], 
-                           answers=interaction_answers[session['current_question_index']], 
-                           player_hp=session['player_hp'], 
-                           enemy_hp=session['enemy_hp'],
-                           player_points=session['player_points'])
+    if 'interaction_question_index' not in session:
+        reset_hp_points()
 
-@app.route('/interaction', methods=['POST'])
-def interaction_post():
-    answer = request.form['answer']
-    
-    # Update HP and points based on answer chosen
-    if answer == 'super_toxic':
-        session['player_hp'] -= 2
-    elif answer == 'toxic':
-        session['player_hp'] -= 1
-    elif answer == 'positive':
-        session['enemy_hp'] -= 1
-    elif answer == 'super_positive':
-        session['enemy_hp'] -= 2
-    elif answer == 'avoid_fight':
-        session['player_points'] += 1
-    
-    # Ensure HP doesn't go below 0 or above 10
-    session['player_hp'] = max(0, min(session['player_hp'], 10))
-    session['enemy_hp'] = max(0, min(session['enemy_hp'], 10))
-    
-    # Get random reply based on answer
-    if answer in replies:
-        random_reply = random.choice(replies[answer])
-    else:
-        random_reply = "Interesting choice!"
+    current_question_index = session['interaction_question_index']
+    random_reply = ""  # Initialize random_reply with a default value
 
-    # Check win/lose conditions
-    if session['player_hp'] <= 0:
-        return redirect(url_for('game_over'))
-    elif session['enemy_hp'] <= 0:
-        return redirect(url_for('congratulations'))
-    elif session['player_points'] >= 3:
-        return redirect(url_for('congratulations_bro'))
-    
-    # Move to the next question
-    session['current_question_index'] += 1
-    if session['current_question_index'] >= len(interaction_questions):
-        if session['player_hp'] > session['enemy_hp']:
-            return redirect(url_for('congratulations'))
-        else:
+    if request.method == 'POST':
+        answer = request.form['answer']
+
+        # Process the answer and update session variables
+        if answer == 'super_toxic':
+            session['player_hp'] -= 2
+        elif answer == 'toxic':
+            session['player_hp'] -= 1
+        elif answer == 'positive':
+            session['enemy_hp'] -= 1
+        elif answer == 'super_positive':
+            session['enemy_hp'] -= 2
+        elif answer == 'avoid_fight':
+            session['player_points'] += 1
+        
+        session['player_hp'] = max(0, min(session['player_hp'], 10))
+        session['enemy_hp'] = max(0, min(session['enemy_hp'], 10))
+
+        random_reply = random.choice(replies.get(answer, ["Interesting choice!"]))
+
+        # Check win/lose conditions or move to the next question
+        if session['player_hp'] <= 0:
             return redirect(url_for('game_over'))
-    
+        elif session['enemy_hp'] <= 0:
+            return redirect(url_for('congratulations'))
+        elif session['player_points'] >= 3:
+            return redirect(url_for('congratulations_bro'))
+
+        # Increment to the next question index
+        session['interaction_question_index'] += 1
+
+        # Redirect to results or next question if not at the end
+        if session['interaction_question_index'] >= len(interaction_questions):
+            if session['player_hp'] > session['enemy_hp']:
+                return redirect(url_for('congratulations'))
+            else:
+                return redirect(url_for('game_over'))
+
+        # Render the next interaction question
+        current_question_index = session['interaction_question_index']
+
+    # Render the interaction page with the current question and random_reply
     return render_template('interaction.html', 
-                           question=interaction_questions[session['current_question_index']], 
-                           answers=interaction_answers[session['current_question_index']], 
+                           question=interaction_questions[current_question_index], 
+                           answers=interaction_answers[current_question_index], 
                            player_hp=session['player_hp'], 
                            enemy_hp=session['enemy_hp'],
                            player_points=session['player_points'],
@@ -228,5 +201,15 @@ def analysing():
 def index():
     return render_template('index.html')
 
+@app.route('/reset_session', methods=['GET', 'POST'])
+def reset_session():
+    if request.method == 'POST':
+        session.clear()
+        return redirect(url_for('index'))
+    else:
+        # Handle GET request (optional)
+        return redirect(url_for('index'))
+
+# Define other routes and application logic...
 if __name__ == '__main__':
     app.run(debug=True)
