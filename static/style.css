@@ -14,9 +14,6 @@ form {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    /*background: #fff;
-     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 
 .question {
@@ -24,22 +21,17 @@ form {
 }
 
 button {
-    display: inline-block;
-    margin: 5px 0;
-    padding: 10px 20px;
-    background-color: #007bff;
+    display: block;
+    width: 100%; /* Ensure buttons take up full width */
+    margin: 10px 0; /* Margin for spacing between buttons */
+    padding: 15px; /* Padding for uniform height */
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: left; /* Align text to the left */
+    text-align: center; /* Center the text in the buttons */
     white-space: normal; /* Wrap text if it exceeds button width */
-}
-
-button:hover {
-    background-color: #0056b3;
 }
 
 .interaction-container {
@@ -47,13 +39,19 @@ button:hover {
     justify-content: space-between;
     align-items: center;
     height: 80vh;
-    margin: 0 10%;
+    margin: 20px; /* Add margin for spacing around the frame */
+    padding: 20px; /* Add padding inside the frame */
+    border: 2px solid #ccc; /* Frame with a light gray border */
+    border-radius: 10px; /* Rounded corners for the frame */
+    background-color: #fff; /* Background color for the frame */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for the frame */
 }
 
 .user, .enemy {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 40%; /* Ensure user and enemy sections have the same width */
 }
 
 .circle {
@@ -72,22 +70,32 @@ button:hover {
 }
 
 .buttons {
+    width: 100%; /* Ensure button container takes up full width */
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center; /* Center align the buttons */
+}
+
+.green-btn, .purple-btn {
+    width: 100%; /* Ensure buttons take up full width */
+    max-width: 300px; /* Limit maximum width of buttons */
+    min-width: 200px; /* Set a minimum width for buttons */
+    height: 80px; /* Set a uniform height for buttons */
+    padding: 0; /* Remove padding as height is fixed */
+    line-height: 20px; /* Vertically center text */
 }
 
 .green-btn {
-    width: 100%;
-    max-width: 300px; /* Limit button width */
-    padding: 15px;
     background-color: #28a745; /* Green color for user buttons */
+    transition: background-color 0.7s ease;
+}
+
+.green-btn:hover {
+    background-color: #007bff;
 }
 
 .purple-btn {
-    width: 100%;
-    height: 50px;
-    background-color: #6f42c1; /* Purple color for enemy buttons */
+    background-color: #452978; /* Purple color for enemy buttons */
     border: none;
     border-radius: 5px;
     cursor: not-allowed; /* Cursor disabled for enemy buttons */
@@ -97,6 +105,35 @@ button:hover {
 .question {
     text-align: center;
     flex-grow: 1;
+}
+
+.popup-balloon {
+    position: absolute;
+    left: -10px; /* Adjust as necessary */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.popup-balloon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    transform: translateY(-50%);
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent transparent #ffffff;
+}
+
+.popup-visible {
+    display: block !important;
 }
 
 .celebration {
