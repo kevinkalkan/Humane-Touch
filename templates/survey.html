@@ -3,22 +3,63 @@
 <head>
     <meta charset="utf-8">
     <title>Survey</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .option-button {
+            width: 100%;
+            max-width: 300px;
+            min-width: 150px;
+            padding: 15px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .option-button.selected {
+            background-color: #6c757d !important;
+            color: #fff;
+        }
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <div class="survey-container">
-        <form method="POST">
-            <h2>{{ question['question'] }}</h2>
-            {% for answer in question['answers'] %}
-            <div>
-                <input type="checkbox" name="answers" value="{{ answer }}"> {{ answer }}
-            </div>
-            {% endfor %}
-            <button type="submit">Next</button>
-        </form>
-        {% if error %}
-        <p class="error">{{ error }}</p>
-        {% endif %}
+    <div class="container">
+        <div class="survey-container">
+            <form method="POST" class="form-group">
+                <h2>{{ question['question'] }}</h2>
+                {% for answer in question['answers'] %}
+                <button type="button" class="btn btn-light option-button {% if answer in selected_answers %}selected{% endif %}" data-answer="{{ answer }}">{{ answer }}</button>
+                {% endfor %}
+                <input type="hidden" name="answers" id="answers">
+                <button type="submit" class="btn btn-primary mt-3">Next</button>
+            </form>
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+        </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.option-button').click(function() {
+                $(this).toggleClass('selected');
+                updateHiddenInput();
+            });
+
+            function updateHiddenInput() {
+                var selectedAnswers = [];
+                $('.option-button.selected').each(function() {
+                    selectedAnswers.push($(this).data('answer'));
+                });
+                $('#answers').val(selectedAnswers.join(','));
+            }
+        });
+    </script>
 </body>
 </html>

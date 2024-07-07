@@ -5,8 +5,7 @@ body {
     background-color: #f4f4f4;
 }
 
-h1 {
-    text-align: center;
+h1, h2 {
     color: #333;
 }
 
@@ -16,6 +15,9 @@ form {
     padding: 20px;
 }
 
+.form-control {
+    margin-bottom: 20px;
+}
 .question {
     margin-bottom: 20px;
 }
@@ -39,19 +41,19 @@ button {
     justify-content: space-between;
     align-items: center;
     height: 80vh;
-    margin: 20px; /* Add margin for spacing around the frame */
-    padding: 20px; /* Add padding inside the frame */
-    border: 2px solid #ccc; /* Frame with a light gray border */
-    border-radius: 10px; /* Rounded corners for the frame */
-    background-color: #fff; /* Background color for the frame */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for the frame */
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .user, .enemy {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 40%; /* Ensure user and enemy sections have the same width */
+    width: 40%;
 }
 
 .circle {
@@ -62,11 +64,11 @@ button {
 }
 
 .blue {
-    background-color: #007bff; /* Blue color for user circle */
+    background-color: #007bff;
 }
 
 .red {
-    background-color: #dc3545; /* Red color for enemy circle */
+    background-color: #dc3545;
 }
 
 .buttons {
@@ -74,6 +76,16 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center align the buttons */
+}
+.btn {
+    width: 100%;
+    max-width: 300px;
+    min-width: 200px;
+    height: 80px;
+    padding: 0;
+    line-height: 20px;
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .green-btn, .purple-btn {

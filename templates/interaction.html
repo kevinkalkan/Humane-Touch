@@ -3,7 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <title>User and Enemy Interaction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .interaction-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            height: 80vh;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .user, .enemy {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+        }
+        .card {
+            width: 100%;
+            margin-bottom: 30px;
+            position: relative;
+            border: 0px;
+        }
+        .card-body {
+            padding: 10px;
+            text-align: center;
+        }
+        .card-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        .card-img {
+            width: 100%;
+            height: auto;
+        }
+        .card-content {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            padding: 10px;
+            z-index: 1;
+        }
+        .card:hover .card-img {
+            display: none;
+        }
+        .card:hover .card-content {
+            display: block;
+        }
+        .hp {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .card-button {
+            background-color: blue;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .card-button:focus {
+            outline: none;
+        }
+        .enemy .card-header {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+        }
+        .enemy .card-header .btn-link {
+            padding: 0;
+        }
+    </style>
+</head>
+<body onload="displayRandomReply()">
+    <div class="interaction-container">
+        <div class="user">
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_ico2n.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <div id="userCardContent1" class="collapse card-content" aria-labelledby="userCardHeader1">
+                    <form method="POST" action="/interaction" style="padding: 0%">
+                        <button class="card-button" name="answer" value="super_toxic">{{ answers[0] }}</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_icon.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <div id="userCardContent2" class="collapse card-content" aria-labelledby="userCardHeader2">
+                    <form method="POST" action="/interaction" style="padding: 0%">
+                        <button class="card-button" name="answer" value="toxic">{{ answers[1] }}</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_icon.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <div id="userCardContent2" class="collapse card-content" aria-labelledby="userCardHeader2">
+                    <form method="POST" action="/interaction" style="padding: 0%">
+                        <button class="card-button" name="answer" value="positive">{{ answers[2] }}</button>
+                    </form>
+                </div>
+            </div>
+            <!-- Add more cards for other answers as needed -->
+        </div>
+        <div class="question">
+            <h2>{{ question }}</h2>
+        </div>
+        <div class="enemy">
+            <div class="card">
+                <div class="card-header" id="enemyCardHeader">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#enemyCardContent" aria-expanded="false" aria-controls="enemyCardContent">
+                            <img src="{{ url_for('static', filename='enemy_card_cover.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
+                        </button>
+                    </h5>
+                </div>
+                <div id="enemyCardContent" class="collapse card-content" aria-labelledby="enemyCardHeader">
+                    <form method="POST" action="/interaction">
+                        <button class="card-button" name="answer" value="toxic">Toxic</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="hp">
+            <p>Player HP: 10</p>
+        </div>
+        <div class="hp">
+            <p>Enemy HP: 10</p>
+        </div>
+    </div>
+    <div id="random-reply" class="popup-balloon">
+        <p>{{ random_reply }}</p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function displayRandomReply() {
             var randomReply = document.getElementById('random-reply');
@@ -13,43 +150,5 @@
             }, 5000);
         }
     </script>
-</head>
-<body onload="displayRandomReply()">
-    <div class="interaction-container">
-        <div class="user">
-            <div class="circle blue"></div>
-            <div class="buttons">
-                <form method="POST" action="/interaction">
-                    <button class="green-btn" name="answer" value="super_toxic">{{ answers[0] }}</button>
-                    <button class="green-btn" name="answer" value="toxic">{{ answers[1] }}</button>
-                    <button class="green-btn" name="answer" value="positive">{{ answers[2] }}</button>
-                    <button class="green-btn" name="answer" value="super_positive">{{ answers[3] }}</button>
-                    <button class="green-btn" name="answer" value="avoid_fight">{{ answers[4] }}</button>
-                </form>
-            </div>
-            <div class="hp">
-                <p>Player HP: 10</p>
-            </div>
-        </div>
-        <div class="question">
-            <h2>{{ question }}</h2>
-        </div>
-        <div class="enemy">
-            <div class="circle red"></div>
-            <div id="random-reply" class="popup-balloon">
-                <p>{{ random_reply }}</p>
-            </div>
-            <div class="buttons">
-                <button class="purple-btn" disabled></button>
-                <button class="purple-btn" disabled></button>
-                <button class="purple-btn" disabled></button>
-                <button class="purple-btn" disabled></button>
-                <button class="purple-btn" disabled></button>
-            </div>
-            <div class="hp">
-                <p>Enemy HP: 10</p>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
