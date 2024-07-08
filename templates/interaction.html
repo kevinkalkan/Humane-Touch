@@ -8,10 +8,13 @@
     <style>
         .interaction-container {
             display: flex;
+            position: relative;
+            left: 15%;
             justify-content: space-between;
             align-items: flex-start;
-            height: 80vh;
-            margin: 20px;
+            height: 60%;
+            width: 70%;
+            margin: 50px;
             padding: 20px;
             background-color: #f4f4f4;
         }
@@ -19,11 +22,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 40%;
+            width: 18%;
+        }
+        .vs-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80%;
+            font-size: 48px;
+            font-weight: bold;
+            color: red;
+        }
+        .question {
+            margin-top: 10px;
+            font-size: 24px;
+            text-align: center;
         }
         .card {
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             position: relative;
             border: 0px;
         }
@@ -41,7 +59,6 @@
         }
         .card-content {
             display: none;
-            position: absolute;
             top: 0;
             left: 0;
             right: 0;
@@ -49,12 +66,14 @@
             background-color: white;
             padding: 10px;
             z-index: 1;
+            pointer-events: none;
         }
-        .card:hover .card-img {
+        .user .card:hover .card-img {
             display: none;
         }
-        .card:hover .card-content {
+        .user .card:hover .card-content {
             display: block;
+            pointer-events: auto;
         }
         .hp {
             text-align: center;
@@ -83,8 +102,9 @@
 <body onload="displayRandomReply()">
     <div class="interaction-container">
         <div class="user">
+            <div class="circle blue"></div>
             <div class="card">
-                <img src="{{ url_for('static', filename='card_ico2n.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
                 <div id="userCardContent1" class="collapse card-content" aria-labelledby="userCardHeader1">
                     <form method="POST" action="/interaction" style="padding: 0%">
                         <button class="card-button" name="answer" value="super_toxic">{{ answers[0] }}</button>
@@ -92,7 +112,7 @@
                 </div>
             </div>
             <div class="card">
-                <img src="{{ url_for('static', filename='card_icon.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
                 <div id="userCardContent2" class="collapse card-content" aria-labelledby="userCardHeader2">
                     <form method="POST" action="/interaction" style="padding: 0%">
                         <button class="card-button" name="answer" value="toxic">{{ answers[1] }}</button>
@@ -100,43 +120,63 @@
                 </div>
             </div>
             <div class="card">
-                <img src="{{ url_for('static', filename='card_icon.png') }}" class="card-img-top card-img" alt="User Card Cover">              
-                <div id="userCardContent2" class="collapse card-content" aria-labelledby="userCardHeader2">
+                <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <div id="userCardContent3" class="collapse card-content" aria-labelledby="userCardHeader3">
                     <form method="POST" action="/interaction" style="padding: 0%">
                         <button class="card-button" name="answer" value="positive">{{ answers[2] }}</button>
                     </form>
                 </div>
             </div>
-            <!-- Add more cards for other answers as needed -->
-        </div>
-        <div class="question">
-            <h2>{{ question }}</h2>
-        </div>
-        <div class="enemy">
             <div class="card">
-                <div class="card-header" id="enemyCardHeader">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#enemyCardContent" aria-expanded="false" aria-controls="enemyCardContent">
-                            <img src="{{ url_for('static', filename='enemy_card_cover.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
-                        </button>
-                    </h5>
-                </div>
-                <div id="enemyCardContent" class="collapse card-content" aria-labelledby="enemyCardHeader">
-                    <form method="POST" action="/interaction">
-                        <button class="card-button" name="answer" value="toxic">Toxic</button>
+                <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <div id="userCardContent4" class="collapse card-content" aria-labelledby="userCardHeader4">
+                    <form method="POST" action="/interaction" style="padding: 0%">
+                        <button class="card-button" name="answer" value="super_positive">{{ answers[3] }}</button>
                     </form>
                 </div>
             </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
+                <div id="userCardContent5" class="collapse card-content" aria-labelledby="userCardHeader5">
+                    <form method="POST" action="/interaction" style="padding: 0%">
+                        <button class="card-button" name="answer" value="avoid_fight">{{ answers[4] }}</button>
+                    </form>
+                </div>
+            </div>
+            <div class="hp">
+                <p>Player HP: 10</p>
+            </div>
         </div>
-        <div class="hp">
-            <p>Player HP: 10</p>
+        <div class="vs-container">
+            <div style="text-shadow: 2px 2px #000000;">VS</div>
+            <div class="question" style="text-shadow: 0px; margin-top: 30px; width: 50%;">
+                <h2>{{ question }}</h2>
+            </div>
         </div>
-        <div class="hp">
-            <p>Enemy HP: 10</p>
-        </div>
-    </div>
-    <div id="random-reply" class="popup-balloon">
-        <p>{{ random_reply }}</p>
+        <div class="enemy">
+            <div class="circle red"></div>
+            <div id="random-reply" class="popup-balloon">
+                <p>{{ random_reply }}</p>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
+            </div>
+            <div class="hp">
+                <p>Enemy HP: 10</p>
+            </div>
+        </div>       
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

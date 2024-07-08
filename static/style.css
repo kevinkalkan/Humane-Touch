@@ -120,10 +120,7 @@ button {
 }
 
 .popup-balloon {
-    position: absolute;
-    left: -10px; /* Adjust as necessary */
-    top: 50%;
-    transform: translateY(-50%);
+    margin: 5px;
     width: 200px;
     padding: 10px;
     background-color: #ffffff;
