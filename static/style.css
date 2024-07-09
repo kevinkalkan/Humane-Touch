@@ -1,4 +1,8 @@
 body {
+    background-image: url("{{ url_for('static', filename='background.png') }}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
@@ -78,6 +82,7 @@ button {
     flex-grow: 1;
 }
 .interaction-container {
+
     display: flex;
     position: relative;
     left: 15%;
