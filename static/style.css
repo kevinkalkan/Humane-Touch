@@ -22,6 +22,11 @@ form {
     margin-bottom: 20px;
 }
 
+p {
+    color: #333;
+    margin-bottom: 30px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
 button {
     display: block;
     width: 100%; /* Ensure buttons take up full width */
@@ -34,26 +39,6 @@ button {
     cursor: pointer;
     text-align: center; /* Center the text in the buttons */
     white-space: normal; /* Wrap text if it exceeds button width */
-}
-
-.interaction-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80vh;
-    margin: 20px;
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.user, .enemy {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 40%;
 }
 
 .circle {
@@ -88,46 +73,111 @@ button {
     margin-bottom: 10px;
 }
 
-.green-btn, .purple-btn {
-    width: 100%; /* Ensure buttons take up full width */
-    max-width: 300px; /* Limit maximum width of buttons */
-    min-width: 200px; /* Set a minimum width for buttons */
-    height: 80px; /* Set a uniform height for buttons */
-    padding: 0; /* Remove padding as height is fixed */
-    line-height: 20px; /* Vertically center text */
-}
-
-.green-btn {
-    background-color: #28a745; /* Green color for user buttons */
-    transition: background-color 0.7s ease;
-}
-
-.green-btn:hover {
-    background-color: #007bff;
-}
-
-.purple-btn {
-    background-color: #452978; /* Purple color for enemy buttons */
-    border: none;
-    border-radius: 5px;
-    cursor: not-allowed; /* Cursor disabled for enemy buttons */
-    opacity: 0.5; /* Opacity reduced for disabled state */
-}
-
 .question {
     text-align: center;
     flex-grow: 1;
 }
+.interaction-container {
+    display: flex;
+    position: relative;
+    left: 15%;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 60%;
+    width: 70%;
+    margin: 50px;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.user, .enemy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 18%;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.vs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    font-size: 48px;
+    font-weight: bold;
+    color: red;
+}
+.question {
+    margin-top: 10px;
+    font-size: 24px;
+    text-align: center;
+}
+.card {
+    width: 100%;
+    margin-bottom: 10px;
+    position: relative;
+    border: 0px;
+}
+.card-body {
+    padding: 10px;
+    text-align: center;
+}
+.card-title {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.card-img {
+    width: 100%;
+    height: auto;
+}
+.card-content {
+    pointer-events: none;
+    background-color: #007bff;
+}
+.user .card:hover .card-img {
+    display: none;
+}
+.user .card:hover .card-content {
+    display: block;
+    pointer-events: auto;
+}
+.hp {
+    text-align: center;
+    margin-top: 10px;
+}
+.card-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.card-button:focus {
+    outline: none;
+}
+.enemy .card-header {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+.enemy .card-header .btn-link {
+    padding: 0;
+}
 
 .popup-balloon {
-    margin: 5px;
+    margin-bottom: 10px;
+    padding-bottom: -20px;
     width: 200px;
-    padding: 10px;
     background-color: #ffffff;
     border: 1px solid #cccccc;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     display: none;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .popup-balloon::before {
@@ -144,6 +194,7 @@ button {
 .popup-visible {
     display: block !important;
 }
+
 
 .celebration {
     text-align: center;
