@@ -6,22 +6,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        .container {
-            margin-top: 50px;
-        }
-        .option-button {
-            width: 100%;
-            max-width: 300px;
-            min-width: 150px;
-            padding: 15px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            transition: background-color 0.3s ease;
-        }
-        .option-button.selected {
-            background-color: #6c757d !important;
-            color: #fff;
-        }
         .error {
             color: #dc3545;
             margin-top: 10px;
@@ -37,7 +21,7 @@
                 <button type="button" class="btn btn-light option-button {% if answer in selected_answers %}selected{% endif %}" data-answer="{{ answer }}">{{ answer }}</button>
                 {% endfor %}
                 <input type="hidden" name="answers" id="answers">
-                <button type="submit" class="btn btn-primary mt-3">Next</button>
+                <button type="submit" class="btn btn-primary mt-3" style="border-radius: 20px;border-width: medium;border-color: black;box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);border-style: solid;">Next</button>
             </form>
             {% if error %}
             <p class="error">{{ error }}</p>
