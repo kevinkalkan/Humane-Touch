@@ -18,7 +18,7 @@
 <body onload="displayRandomReply()">
     <div class="interaction-container">
         <div class="user">
-            <div class="circle blue"></div>
+            <div class="circle blue"> YOU </div>
             <div class="card">
                 <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
                 <div id="userCardContent1" class="collapse card-content" aria-labelledby="userCardHeader1">
@@ -60,19 +60,19 @@
                 </div>
             </div>
             <div class="hp">
-                <p>Player HP: 10</p>
+                <p style="color: #fff;">Player HP: 10</p>
             </div>
         </div>
         <div class="vs-container">
-            <div style="text-shadow: 2px 2px #000000;">VS</div>
+            <div style="text-shadow: 2px 2px #000000;color: #dc3545;">VS</div>
             <div class="question" style="text-shadow: 0px; margin-top: 30px; width: 50%;">
                 <h2 style="color: black;border: 2px solid #ccc;border-radius: 10px;background-color: #fff;box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">{{ question }}</h2>
             </div>
         </div>
         <div class="enemy">
-            <div class="circle red"></div>
+            <div class="circle red"> ENEMY </div>
             <div id="random-reply" class="popup-balloon">
-                <p>{{ random_reply }}</p>
+                <p style="color: #fff;">{{ random_reply }}</p>
             </div>
             <div class="card">
                 <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">

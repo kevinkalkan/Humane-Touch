@@ -2,7 +2,8 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #132b09;
+    background: rgb(2,0,36);
+    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(53,151,64,1) 100%);
 }
 
 h1, h2 {
@@ -25,7 +26,8 @@ form {
 p {
     color: #333;
     margin-bottom: 30px;
-    font-family:Verdana, Geneva, Tahoma, sans-serif;
+     /* font-family:Verdana, Geneva, Tahoma, sans-serif; */
+    font-size: 24px;
 }
 button {
     display: block;
@@ -57,6 +59,10 @@ button {
     height: 100px;
     border-radius: 50%;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
 }
 
 .blue {
@@ -75,33 +81,34 @@ button {
 }
 .btn {
     width: 100%;
-    max-width: 300px;
     min-width: 200px;
-    height: 80px;
+    height: 50px;
     padding: 0;
     line-height: 20px;
     font-size: 16px;
     margin-bottom: 10px;
 }
 .option-button {
-    width: 100%;
-    max-width: 300px;
-    min-width: 150px;
-    padding: 15px;
-    font-size: 16px;
-    margin-bottom: 10px;
+    /* width: 100%; */
+    max-width: 350px;
+    /* min-width: 150px; */
+    /* padding: 15px; */
+    font-size: 24px;
+    /* margin-bottom: 10px; */
     border-radius: 20px;
     border-width: thick;
     border: black;
     border-style: groove;
+    background-color: #b7da66f7;
+    color: black;
     transition: background-color 0.3s ease;
 }
 .option-button.selected {
-    background-color: #800080;
+    background-color: #008000;
     color: #fff;
 }
 .option-button:hover {
-    background-color: #986498;
+    background-color: #621d6e;
 }
 
 .question {
@@ -203,7 +210,7 @@ button {
     margin-bottom: 10px;
     padding-bottom: -20px;
     width: 200px;
-    background-color: #ffffff;
+    background-color: #dc3545;
     border: 1px solid #cccccc;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);

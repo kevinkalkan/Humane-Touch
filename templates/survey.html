@@ -10,18 +10,19 @@
             color: #dc3545;
             margin-top: 10px;
         }
+        
     </style>
 </head>
 <body>
     <div class="container">
         <div class="survey-container">
             <form method="POST" class="form-group">
-                <h2>{{ question['question'] }}</h2>
+                <h2><b>{{ question['question'] }}</b></h2>
                 {% for answer in question['answers'] %}
                 <button type="button" class="btn btn-light option-button {% if answer in selected_answers %}selected{% endif %}" data-answer="{{ answer }}">{{ answer }}</button>
                 {% endfor %}
                 <input type="hidden" name="answers" id="answers">
-                <button type="submit" class="btn btn-primary mt-3" style="border-radius: 20px;border-width: medium;border-color: black;box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);border-style: solid;">Next</button>
+                <button type="submit" class="btn btn-primary mt-3" style="border-radius: 15px;max-width: 300px;font-size: 24px;border-width: medium;border-color: black;box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);border-style: solid; background: #13342e;">Next</button>
             </form>
             {% if error %}
             <p class="error">{{ error }}</p>

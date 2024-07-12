@@ -32,18 +32,19 @@
         .btn-primary, .btn-danger {
             width: 100%;
             padding: 15px;
-            font-size: 16px;
+            font-size: 24px;
         }
         .btn-primary {
-            background-color: #007bff;
+            background-color: #621d6e;
             border: none;
+            border-radius: 15px;
         }
         .btn-danger {
             background-color: #dc3545;
             border: none;
         }
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #c82333;
         }
         .btn-danger:hover {
             background-color: #c82333;
@@ -52,15 +53,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Think You Know Games?</h1>
-        <p>Sure, you play games. But do you really know what kind of gamer you are? Take this quiz and prove it. Or, you know, keep telling yourself that you're the "ultimate" gamer. Your call.</p>
-        <a href="{{ url_for('survey') }}" class="btn btn-primary mb-3">Take the Quiz</a>
-        <form action="{{ url_for('reset_session') }}" method="POST">
-            <button type="submit" class="btn btn-danger mb-3">Reset Session</button>
-        </form>
+        <h1><b>Think You Know Games?</b></h1>
+        <p>Sure, you play games. But do you really know what kind of gamer you are? Take the survey to give us more details about your gamer identity. Then let us check if you're a true gamer by beating the challenge. Or, you know, keep telling yourself that you're the "ultimate" gamer. Your call.</p>
+        <a href="{{ url_for('survey') }}" class="btn btn-primary mb-3">Take the Challenge</a>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+<form action="{{ url_for('reset_session') }}" method="POST">
+    <button type="submit" class="btn btn-danger mb-3">Reset Session</button>
+</form> 
+
 </html>
+
