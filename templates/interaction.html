@@ -18,6 +18,10 @@
 <body onload="displayRandomReply()">
     <div class="interaction-container">
         <div class="user">
+            <div class="hp">
+                <p style="color: #fff; margin-bottom: 5px;">Player HP:</p>
+                <div class="hp-container" id="enemy-hp-container"></div>
+            </div>
             <div class="circle blue"> YOU </div>
             <div class="card">
                 <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
@@ -59,9 +63,7 @@
                     </form>
                 </div>
             </div>
-            <div class="hp">
-                <p style="color: #fff;">Player HP: 10</p>
-            </div>
+
         </div>
         <div class="vs-container">
             <div style="text-shadow: 2px 2px #000000;color: #dc3545;">VS</div>
@@ -70,6 +72,10 @@
             </div>
         </div>
         <div class="enemy">
+            <div class="hp">
+                <p style="color: #fff; margin-bottom: 5px;">Enemy HP:</p>
+                <div class="hp-container" id="player-hp-container"></div>
+            </div>
             <div class="circle red"> ENEMY </div>
             <div id="random-reply" class="popup-balloon">
                 <p style="color: #fff;">{{ random_reply }}</p>
@@ -89,9 +95,7 @@
             <div class="card">
                 <img src="{{ url_for('static', filename='card_enemy.png') }}" class="card-img-top card-img" alt="Enemy Card Cover">
             </div>
-            <div class="hp">
-                <p style="color: #fff;">Enemy HP: {{player_hp}}</p>
-            </div>
+
         </div>       
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -104,6 +108,26 @@
             setTimeout(function() {
                 randomReply.classList.remove('popup-visible');
             }, 5000);
+        }
+        function generateHPBoxes(containerId, hp) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear existing boxes
+            for (let i = 0; i < hp; i++) {
+                const box = document.createElement('div');
+                box.className = 'hp-box';
+                container.appendChild(box);
+            }
+        }
+
+        // Example: Replace these with actual values from your server
+        const playerHP = {{ player_hp }};  // This should be a variable from your server
+        const enemyHP = 10; // This should be a variable from your server
+
+        // Generate HP boxes on page load
+        window.onload = function() {
+            generateHPBoxes('player-hp-container', playerHP);
+            generateHPBoxes('enemy-hp-container', enemyHP);
+            displayRandomReply();
         }
     </script>
 </body>

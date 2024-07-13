@@ -22,7 +22,7 @@
                 <button type="button" class="btn btn-light option-button {% if answer in selected_answers %}selected{% endif %}" data-answer="{{ answer }}">{{ answer }}</button>
                 {% endfor %}
                 <input type="hidden" name="answers" id="answers">
-                <button type="submit" class="btn btn-primary mt-3" style="border-radius: 15px;max-width: 300px;font-size: 24px;border-width: medium;border-color: black;box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);border-style: solid; background: #13342e;">Next</button>
+                <button type="submit" id="next-button" class="btn btn-primary mt-3" style="border-radius: 15px;max-width: 300px;font-size: 24px;border-width: medium;border-color: black;box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);border-style: solid; background: #13342e;" disabled>Next</button>
             </form>
             {% if error %}
             <p class="error">{{ error }}</p>
@@ -35,6 +35,7 @@
             $('.option-button').click(function() {
                 $(this).toggleClass('selected');
                 updateHiddenInput();
+                toggleNextButton();
             });
 
             function updateHiddenInput() {
@@ -43,6 +44,14 @@
                     selectedAnswers.push($(this).data('answer'));
                 });
                 $('#answers').val(selectedAnswers.join(','));
+            }
+
+            function toggleNextButton() {
+                if ($('.option-button.selected').length > 0) {
+                    $('#next-button').prop('disabled', false);
+                } else {
+                    $('#next-button').prop('disabled', true);
+                }
             }
         });
     </script>
