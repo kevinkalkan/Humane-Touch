@@ -92,6 +92,19 @@ button {
     font-size: 16px;
     margin-bottom: 10px;
 }
+.btn-primary {
+    width: 100%;
+    padding: 15px;
+    font-size: 24px;
+    background-color: #621d6e;
+    border: none;
+    border-radius: 15px;
+}
+
+.btn-primary:hover {
+    background-color: #c82333;
+}
+
 .option-button {
     /* width: 100%; */
     max-width: 350px;
@@ -115,9 +128,6 @@ button {
     background-color: #621d6e;
 }
 
-.btn-primary:hover {
-    background-color: #00ccff;
-}
 .question {
     text-align: center;
     flex-grow: 1;
@@ -259,8 +269,6 @@ button {
 
 .confetti-container {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;

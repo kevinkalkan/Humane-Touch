@@ -3,52 +3,45 @@
 <head>
     <meta charset="utf-8">
     <title>Congratulations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffcc00;
-            animation: confetti-fall 5s linear infinite, confetti-spin 2s linear infinite;
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-
-        .confetti:nth-child(2n) {
-            background-color: #ff00ff;
-        }
-
-        .confetti:nth-child(3n) {
-            background-color: #00ccff;
-        }
-
-        .confetti:nth-child(4n) {
-            background-color: #ff3300;
-        }
-
-        .confetti:nth-child(5n) {
-            background-color: #33cc33;
-        }
-
-        @keyframes confetti-fall {
-            0% { top: -10px; left: calc(100% * var(--x)); opacity: 1; }
-            100% { top: 100%; left: calc(100% * var(--x)); opacity: 0; }
-        }
-
-        @keyframes confetti-spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .celebration {
-            text-align: center;
+        .container {
             margin-top: 50px;
+            padding: 20px;
+            width: 70%;
+            background-color: #b5ea9e;
+            border-radius: 20px;
+            border-color: purple;
+            border-width: thick;
+            border-style: ridge;
+            box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);
         }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
     </style>
 </head>
 <body>
-    <div class="celebration">
-        <h1>Congratulations!</h1>
-        <p>You have defeated the enemy!</p>
+    <div class="container">
+        <h1><b>VICTORY!!!</b></h1>
+        <p>You've won by mastering positivity!</p>
+        <p>Congratulations! You've won the game by achieving the "Beacon of Positivity" title. Your unwavering dedication to positive discourse has transformed every conversation into a vibrant and uplifting 
+            experience. You've mastered the art of constructive interaction, making every moment brighter. Keep spreading the joy—you're a true champion!</p>
+        <form action="{{ url_for('reset_session') }}" method="POST">
+            <button type="submit" class="btn btn-primary mb-3">Reset Session</button>
+        </form> 
+
     </div>
     <div class="confetti-container">
         {% for i in range(100) %}

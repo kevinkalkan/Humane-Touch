@@ -2,13 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Congratulations Bro</title>
+    <title>Congratulations</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            width: 70%;
+            background-color: #b5ea9e;
+            border-radius: 20px;
+            border-color: purple;
+            border-width: thick;
+            border-style: ridge;
+            box-shadow: 19px 16px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        
+    </style>
 </head>
 <body>
-    <div class="message-container">
-        <h1>Congratulations bro!</h1>
-        <p>You earned enough points.</p>
+    <div class="container">
+        <h1><b>VICTORY!!!</b></h1>
+        <p>You've won by avoiding the fight!</p>
+        <p>In this journey, you've triumphed by becoming adept at steering clear of conflicts and actively cultivating harmony in every interaction. Your dedication to promoting positive discourse has not 
+            only transformed conversations but also fostered an environment where constructive communication flourishes effortlessly. Through your efforts, you've nurtured mutual 
+            understanding and forged meaningful connections, making a significant impact on those around you. Keep shining brightly as a beacon of positivity!</p>
+        <form action="{{ url_for('reset_session') }}" method="POST">
+            <button type="submit" class="btn btn-primary mb-3">Reset Session</button>
+        </form> 
+
+    </div>
+    <div class="confetti-container">
+        {% for i in range(100) %}
+            <div class="confetti" style="--x: {{ (i % 10) / 10.0 }}"></div>
+        {% endfor %}
     </div>
 </body>
 </html>
