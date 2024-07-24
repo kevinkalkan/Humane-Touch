@@ -5,18 +5,18 @@ import random
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 
-# Load interaction questions and answers from JSON file
+
 with open('interactions.json') as f:
     interaction_data = json.load(f)
     interaction_questions = interaction_data['i_questions']
     interaction_answers = interaction_data['i_answers']
 
-# Load survey questions and answers from JSON file
+
 with open('survey.json') as f:
     survey_data = json.load(f)
     survey_questions = survey_data['s_questions']
 
-# Load replies from JSON file
+
 with open('replies.json') as f:
     replies = json.load(f)
 
@@ -26,7 +26,7 @@ def reset_hp_points():
     session['player_points'] = 0
     session['interaction_question_index'] = 0
 
-# Ensure proper initialization of session variables
+
 @app.route('/survey', methods=['GET', 'POST'])
 def survey():
     if 'survey_responses' not in session:
@@ -129,12 +129,12 @@ def interaction():
         reset_hp_points()
 
     current_question_index = session['interaction_question_index']
-    random_reply = ""  # Initialize random_reply with a default value
+    random_reply = ""  
 
     if request.method == 'POST':
         answer = request.form['answer']
 
-        # Process the answer and update session variables
+       
         if answer == 'super_toxic':
             session['player_hp'] -= 2
         elif answer == 'toxic':
@@ -151,28 +151,28 @@ def interaction():
 
         random_reply = random.choice(replies.get(answer, ["Interesting choice!"]))
 
-        # Check win/lose conditions or move to the next question
+       
         if session['player_hp'] <= 0:
             return redirect(url_for('game_over'))
         elif session['enemy_hp'] <= 0:
             return redirect(url_for('congratulations'))
         elif session['player_points'] >= 3:
-            return redirect(url_for('congratulations_bro'))
+            return redirect(url_for('congratulations_points'))
 
-        # Increment to the next question index
+        
         session['interaction_question_index'] += 1
 
-        # Redirect to results or next question if not at the end
+        
         if session['interaction_question_index'] >= len(interaction_questions):
             if session['player_hp'] > session['enemy_hp']:
                 return redirect(url_for('congratulations'))
             else:
                 return redirect(url_for('game_over'))
 
-        # Render the next interaction question
+        
         current_question_index = session['interaction_question_index']
 
-    # Render the interaction page with the current question and random_reply
+
     return render_template('interaction.html', 
                            question=interaction_questions[current_question_index], 
                            answers=interaction_answers[current_question_index], 
@@ -189,9 +189,9 @@ def game_over():
 def congratulations():
     return render_template('congratulations.html')
 
-@app.route('/congratulations_bro')
-def congratulations_bro():
-    return render_template('congratulations_bro.html')
+@app.route('/congratulations_points')
+def congratulations_points():
+    return render_template('congratulations_points.html')
 
 @app.route('/analysing')
 def analysing():
@@ -207,9 +207,9 @@ def reset_session():
         session.clear()
         return redirect(url_for('index'))
     else:
-        # Handle GET request (optional)
+        
         return redirect(url_for('index'))
 
-# Define other routes and application logic...
+
 if __name__ == '__main__':
     app.run(debug=True)

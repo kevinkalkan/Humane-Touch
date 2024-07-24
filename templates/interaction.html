@@ -27,7 +27,7 @@
                 <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
                 <div id="userCardContent1" class="collapse card-content" aria-labelledby="userCardHeader1">
                     <form method="POST" action="/interaction" style="padding: 0%">
-                        <button class="card-button" name="answer" value="super_toxic">{{ answers[0] }}</button>
+                        <button class="card-button" name="answer" value="super_toxic">{{ answers[1] }}</button>
                     </form>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <img src="{{ url_for('static', filename='card_user.png') }}" class="card-img-top card-img" alt="User Card Cover">              
                 <div id="userCardContent2" class="collapse card-content" aria-labelledby="userCardHeader2">
                     <form method="POST" action="/interaction" style="padding: 0%">
-                        <button class="card-button" name="answer" value="toxic">{{ answers[1] }}</button>
+                        <button class="card-button" name="answer" value="toxic">{{ answers[0] }}</button>
                     </form>
                 </div>
             </div>
@@ -111,7 +111,7 @@
         }
         function generateHPBoxes(containerId, hp) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ''; // Clear existing boxes
+            container.innerHTML = ''; 
             for (let i = 0; i < hp; i++) {
                 const box = document.createElement('div');
                 box.className = 'hp-box';
@@ -119,11 +119,9 @@
             }
         }
 
-        // Example: Replace these with actual values from your server
-        const playerHP = {{ player_hp }};  // This should be a variable from your server
-        const enemyHP = 10; // This should be a variable from your server
+        const playerHP = {{ player_hp }};  
+        const enemyHP = 10; 
 
-        // Generate HP boxes on page load
         window.onload = function() {
             generateHPBoxes('player-hp-container', playerHP);
             generateHPBoxes('enemy-hp-container', enemyHP);
